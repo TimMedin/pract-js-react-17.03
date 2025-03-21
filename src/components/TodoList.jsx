@@ -1,16 +1,19 @@
-import React from "react"
+import React from 'react';
 
-export function TodoList(todos) {
-    return <ul>
-        {todos.map((todo)=>{
-            return <li>
+export function TodoList({ todos, onDelete }) {
+  return (
+    <ul>
+      {todos && todos.map(todo => {
+        return (
+          <li key={todo.id}>
             <label>
-                <input type="checkbox"  />
+              <input type="checkbox" checked={todo.completed} />
             </label>
             <p>{todo.text}</p>
-            <button onClick={onDelete(todo.id)} type="button"></button>
-        </li>})}
+            <button onClick={() => onDelete(todo.id)} type="button"> Видалити </button>
+          </li>
+        );
+      })}
     </ul>
-    return
-
+  );
 }
