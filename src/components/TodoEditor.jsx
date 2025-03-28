@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
-import React from 'react';
+import React, { Component } from 'react';
 
-export const TodoEditor = () => {
+export class TodoEditor extends Component {
     state={
         textValue: '',
     };
@@ -11,14 +11,14 @@ export const TodoEditor = () => {
     }
 
     handleSubmit = (e) => {
-        e.prevent.default();
+        e.preventDefault();
         this.props.addTodo(this.state.textValue);
         e.currentTarget.reset();
     }
 
   render(){
       return (
-          <form acttion="">
+          <form acttion="" onSubmit={this.handleSubmit}>
           <label htmlFor="">
               <textarea name="edit" id="" value={this.state.textValue} onChange={this.handleChange} />
           </label>
