@@ -13,6 +13,7 @@ export class TodoEditor extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.addTodo(this.state.textValue);
+        this.props.handleCloseModal()
         e.currentTarget.reset();
     }
 

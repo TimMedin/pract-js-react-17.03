@@ -10,6 +10,7 @@ import { Modal } from './Modal';
 export class App extends Component {
   state = {
     todos: initiaTodos,
+    showModal: false,
     filter: '',
   };
 
@@ -53,7 +54,7 @@ export class App extends Component {
     }))
   }
 
-  showModal = () => {
+  handleShowModal = () => {
     this.setState((prevState)=>({
       showModal: !prevState.showModal
     }))
@@ -65,8 +66,7 @@ export class App extends Component {
 
     return (
       <>
-        <TodoEditor 
-         addTodo={this.addTodo}/>
+        <button onClick={this.handleShowModal} type="button"></button>
         <Filter />
         <Info 
           quantity={todosQuantity} 
@@ -77,7 +77,7 @@ export class App extends Component {
           onDelete={this.deleteTodo} 
           onToggleComplete={this.toggleComplete}
         />
-        <Modal/>
+        {this.state.showModal && <Modal><TodoEditor addTodo={this.addTodo} /></Modal>}
       </>
     );
   }
