@@ -1,13 +1,10 @@
 import React from "react";
 
-export const Info = ({quantity}) => {
-
-
-
+export const Info = ({quantity, completed}) => {
   return (
     <div>
-      <p>Загальна кількість завдань:</p>
-      <p>Виконано завдань:</p>
+      <p>Загальна кількість завдань: {quantity}</p>
+      <p>Виконано завдань: {completed}</p>
     </div>
   );
 };

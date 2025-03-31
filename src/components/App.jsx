@@ -5,16 +5,27 @@ import { TodoList } from './TodoList';
 import { TodoEditor } from './TodoEditor';
 import { Filter } from './Filter';
 import { Info } from './Info';
+import { Modal } from './Modal';
 
 export class App extends Component {
   state = {
-    todos: [
-      { "id": "id-1", "text": "Вивчити основи React", "completed": true },
-      { "id": "id-2", "text": "Розібратися з React Router", "completed": false },
-      { "id": "id-3", "text": "Пережити Redux", "completed": false }
-    ],
+    todos: initiaTodos,
     filter: '',
   };
+
+  componentDidMount() {
+    const todos = localStorage.getItem("todos")
+    const parseTodos = JSON.parse(todos)
+    this.setState({todos: parseTodos})
+    console.log(todos);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.todos === this.state.todos) {
+      return
+    }
+    localStorage.setItem("todos", JSON.stringify(this.state.todos))
+  }
 
   deleteTodo = id => {
     this.setState(prevState => ({
@@ -36,24 +47,37 @@ export class App extends Component {
                                                                                                                                                                                                                                                                                                                                                                                                   
   toggleComplete = (id)=> {
     this.setState((prevState)=>({
-      todos: prevState.todos.map[(todo)=>{
-        todo.id == id ?  {...todo, completed: !todo.completed} : todo
-      }]
+      todos: prevState.todos.map(todo => 
+        todo.id === id ? {...todo, completed: !todo.completed} : todo
+      )
+    }))
+  }
+
+  showModal = () => {
+    this.setState((prevState)=>({
+      showModal: !prevState.showModal
     }))
   }
 
   render() {
-    
     const todosQuantity = this.state.todos.length;
-    // const completeTodos 
+    const completedTodos = this.state.todos.filter(todo => todo.completed).length;
 
     return (
       <>
         <TodoEditor 
          addTodo={this.addTodo}/>
         <Filter />
-        <Info quantity={todosQuantity} />
-        <TodoList todos={this.state.todos} onDelete={this.deleteTodo} />
+        <Info 
+          quantity={todosQuantity} 
+          completed={completedTodos} 
+        />
+        <TodoList 
+          todos={this.state.todos} 
+          onDelete={this.deleteTodo} 
+          onToggleComplete={this.toggleComplete}
+        />
+        <Modal/>
       </>
     );
   }
